@@ -59,6 +59,13 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -82,6 +89,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="android.template.608237934">
+      <recent name="com.example.Aicrusade.helpers" />
       <recent name="com.example.Aicrusade" />
     </key>
   </component>
