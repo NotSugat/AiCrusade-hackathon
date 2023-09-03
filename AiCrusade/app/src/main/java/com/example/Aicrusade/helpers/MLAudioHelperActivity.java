@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.Aicrusade.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public abstract class MLAudioHelperActivity extends AppCompatActivity {
     public final static int REQUEST_RECORD_AUDIO = 2033;
@@ -18,18 +19,25 @@ public abstract class MLAudioHelperActivity extends AppCompatActivity {
 
     protected Button startRecordingButton;
     protected Button stopRecordingButton;
-    protected Button enterbutton;
+    protected TextView wanttoknow;
+    protected TextView chirping;
+    protected FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audio_helper);
 
-        enterbutton=findViewById(R.id.enter);
+        mAuth=FirebaseAuth.getInstance();
 
-        outputTextView = findViewById(R.id.textViewOutput);
-        startRecordingButton = findViewById(R.id.buttonStartRecording);
-        stopRecordingButton = findViewById(R.id.buttonStopRecording);
+
+//        outputTextView = findViewById(R.id.textViewOutput);
+
+        wanttoknow=findViewById(R.id.wanttoknow);
+        chirping=findViewById(R.id.chirping);
+
+        startRecordingButton = findViewById(R.id.hearit);
+        stopRecordingButton = findViewById(R.id.explorebird);
 
         stopRecordingButton.setEnabled(false);
 

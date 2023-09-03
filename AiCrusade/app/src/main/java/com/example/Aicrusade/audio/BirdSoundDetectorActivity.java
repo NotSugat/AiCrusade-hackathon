@@ -1,6 +1,7 @@
 package com.example.Aicrusade.audio;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -15,12 +16,14 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.Aicrusade.BirdDetailActivity;
 import com.example.Aicrusade.helpers.MLAudioHelperActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.tensorflow.lite.support.audio.TensorAudio;
@@ -29,8 +32,12 @@ import org.tensorflow.lite.task.audio.classifier.AudioClassifier;
 import org.tensorflow.lite.task.audio.classifier.Classifications;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
@@ -45,19 +52,27 @@ public class BirdSoundDetectorActivity extends MLAudioHelperActivity {
     private AudioRecord record;
     private TimerTask timerTask;
 
+    String lat;
+    String longitude;
+    String city;
+
+
 
     private final static int REQUEST_CODE=100;
 
     public void onStartRecording(View view) {
         super.onStartRecording(view);
 
+        wanttoknow.setText("You are Hearing");
 
-        enterbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getLocations();
-            }
-        });
+
+
+//        enterbutton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getLocations();
+//            }
+//        });
 
         try {
             classifier = AudioClassifier.createFromFile(this, modelPath);
@@ -124,7 +139,10 @@ public class BirdSoundDetectorActivity extends MLAudioHelperActivity {
                     if (finalOutput1.isEmpty()) {
 //                        outputTextView.setText("Could not identify the bird");
                     } else {
-                        outputTextView.setText(outputStr.toString());
+
+                        chirping.setText(outputStr.toString());
+
+//                        outputTextView.setText(outputStr.toString());
 //                        Log.i("BIrd name",outputStr.toString());
                     }
                 });
@@ -139,15 +157,24 @@ public class BirdSoundDetectorActivity extends MLAudioHelperActivity {
 
         timerTask.cancel();
         record.stop();
-        if(outputTextView.getText()!=null){
-            Log.i("BIrd",outputTextView.getText().toString());
+        if(chirping.getText()!=null){
+            Log.i("BIrd",chirping.getText().toString());
             getLocations();
-            FirebaseDatabase.getInstance().getReference().child("bird").child(outputTextView.getText().toString()).child("name").setValue(outputTextView.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+            String text =chirping.getText().toString();
+            FirebaseDatabase.getInstance().getReference().child("bird").child(chirping.getText().toString()).child("name").setValue(chirping.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     Toast.makeText(BirdSoundDetectorActivity.this, "Data added sucessfully in Firebase", Toast.LENGTH_SHORT).show();
                 }
             });
+
+            Intent intent= new Intent(BirdSoundDetectorActivity.this, BirdDetailActivity.class);
+            intent.putExtra("name",text);
+            intent.putExtra("latitude",lat);
+            intent.putExtra("longitude",longitude);
+            intent.putExtra("city",city);
+            startActivity(intent);
         }
     }
 
@@ -161,15 +188,47 @@ public class BirdSoundDetectorActivity extends MLAudioHelperActivity {
                     Geocoder geocoder= new Geocoder(BirdSoundDetectorActivity.this, Locale.getDefault());
                     try {
                         List<Address> address= geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-                        String lat= String.valueOf(address.get(0).getLatitude());
-                        String city= address.get(0).getLocality();
+                        lat= String.valueOf(address.get(0).getLatitude());
+                        longitude=String.valueOf(address.get(0).getLongitude());
+                        city= address.get(0).getLocality();
                         String country=address.get(0).getCountryName();
-                        FirebaseDatabase.getInstance().getReference().child("bird").child(outputTextView.getText().toString()).child("location").setValue(lat+city+country).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                        HashMap<String,Object> map1 = new HashMap<>();
+                        map1.put("name",chirping.getText().toString());
+                        map1.put("latitude",lat);
+                        map1.put("longitude",longitude);
+                        map1.put("location",city);
+
+                        FirebaseDatabase.getInstance().getReference().child("bird").child(chirping.getText().toString()).setValue(map1).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 Toast.makeText(BirdSoundDetectorActivity.this, "Data added sucessfully in Firebase", Toast.LENGTH_SHORT).show();
                             }
                         });
+
+                        Date c = Calendar.getInstance().getTime();
+                        System.out.println("Current time => " + c);
+
+                        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+                        String formattedDate = df.format(c);
+
+
+                        HashMap<String,Object> map = new HashMap<>();
+                        map.put("birdname",chirping.getText().toString());
+                        map.put("latitue",lat);
+                        map.put("longitude",longitude);
+                        map.put("city", city);
+                        map.put("country",country);
+                        map.put("Date",formattedDate);
+
+
+                        FirebaseDatabase.getInstance().getReference().child("userdata").child(mAuth.getCurrentUser().getUid()).child(chirping.getText().toString())
+                                .child(formattedDate).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        Log.i("Bird added","bird Data Added Sucessfully");
+                                    }
+                                });
 
                     } catch (IOException e) {
                         throw new RuntimeException(e);

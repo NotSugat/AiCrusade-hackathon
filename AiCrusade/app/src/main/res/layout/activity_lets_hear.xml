@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LetsHear"
+    android:background="#FF9800"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/wanttoknow"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="WANT TO  KNOW"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/chirping"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Who's chirping?"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:textSize="30dp"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="417dp"
+            android:src="@drawable/birdimage"/>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/hearit"
+            android:layout_width="289dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/buttonbackground"
+            android:backgroundTint="#121111"
+            android:drawableLeft="@drawable/ic_audio"
+            android:text="LET US HEAR IT"
+            android:textSize="17dp"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="25dp"
+            android:paddingEnd="80dp"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/explorebird"
+            android:layout_width="289dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/buttonbackground"
+            android:backgroundTint="#121111"
+            android:text="Explore"
+            android:layout_marginTop="30dp"
+            android:paddingEnd="80dp"
+            android:drawableLeft="@drawable/ic_explore"
+            android:paddingLeft="25dp"
+            android:textSize="17dp"
+            android:textColor="@color/white" />
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

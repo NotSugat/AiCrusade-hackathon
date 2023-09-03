@@ -3,52 +3,78 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".LetsHear"
+    android:background="#FF9800"
+    >
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonStartRecording"
-        android:layout_width="312dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="49dp"
-        android:layout_marginBottom="180dp"
-        android:onClick="onStartRecording"
-        android:text="Start Recording"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonStopRecording"
-        android:layout_width="312dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="49dp"
-        android:layout_marginBottom="84dp"
-        android:onClick="onStopRecording"
-        android:text="Stop Recording"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <TextView
+            android:id="@+id/wanttoknow"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="WANT TO  KNOW"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/textViewOutput"
-        android:layout_width="381dp"
-        android:layout_height="103dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        <TextView
+            android:id="@+id/chirping"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Who's chirping?"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:textSize="30dp"/>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/enter"
-        android:layout_width="180dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="104dp"
-        android:layout_marginEnd="144dp"
-        android:text="Button"
-        android:backgroundTint="@color/teal_200"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewOutput" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="417dp"
+            android:src="@drawable/birdimage"/>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/hearit"
+            android:layout_width="289dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/buttonbackground"
+            android:backgroundTint="#121111"
+            android:drawableLeft="@drawable/ic_audio"
+            android:text="LET US HEAR IT"
+            android:onClick="onStartRecording"
+            android:textSize="17dp"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="25dp"
+            android:paddingEnd="80dp"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/explorebird"
+            android:layout_width="289dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/buttonbackground"
+            android:backgroundTint="#121111"
+            android:text="Explore"
+            android:layout_marginTop="30dp"
+            android:paddingEnd="80dp"
+            android:drawableLeft="@drawable/ic_explore"
+            android:paddingLeft="25dp"
+            android:textSize="17dp"
+            android:textColor="@color/white"
+            android:onClick="onStopRecording"
+            />
+
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

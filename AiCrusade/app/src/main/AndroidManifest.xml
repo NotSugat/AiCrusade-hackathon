@@ -2,12 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.Aicrusade">
 
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <queries>
 
@@ -30,10 +32,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AiCrusade">
         <activity
-            android:name=".helpers.MLAudioHelperActivity"
+            android:name=".LetsHear"
+            android:exported="false" />
+        <activity
+            android:name=".BirdDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".helpers.MLAudioHelperActivity"
+            android:exported="false" />
+        <activity
+            android:name=".audio.BirdSoundDetectorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
             android:exported="true"
             android:screenOrientation="userPortrait">
             <intent-filter>
