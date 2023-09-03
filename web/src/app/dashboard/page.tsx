@@ -92,10 +92,10 @@ const Dashboard = () => {
       </section>
 
 
-      <section className="mx-4 mt-4 grid grid-cols-2 gap-4 ">
+      <section className="mx-4 mt-4 grid grid-cols-2 gap-4">
         <div>
           <p>Your Bird</p>
-          <ScrollArea className="h-[var(--bottom-card-height)]">
+          <ScrollArea className="h-[var(--bottom-card-height)] ">
             <div className="space-y-2">
 
               <div className="px-4 py-2 bg-gray-200 rounded-sm flex items-center justify-between">
@@ -112,6 +112,81 @@ const Dashboard = () => {
                 </div>
                 <p>Today</p>
               </div>
+              <div className="px-4 py-2 bg-gray-200 rounded-sm flex items-center justify-between">
+
+                <div className="flex items-center gap-4">
+                  <div className="p-2 bg-white rounded-full">
+                    <Image src="/assets/chestnut.png" alt="profile pic" height={1000} width={1000} className="h-12 w-12" />
+                  </div>
+                  <div>
+
+                    <p className="text-xl font-medium">Chesnut</p>
+                    <p className="text-sm">Dhulikhel</p>
+                  </div>
+                </div>
+                <p>Today</p>
+              </div>
+
+
+              <div className="px-4 py-2 bg-gray-200 rounded-sm flex items-center justify-between">
+
+                <div className="flex items-center gap-4">
+                  <div className="p-2 bg-white rounded-full">
+                    <Image src="/assets/chestnut.png" alt="profile pic" height={1000} width={1000} className="h-12 w-12" />
+                  </div>
+                  <div>
+
+                    <p className="text-xl font-medium">Chesnut</p>
+                    <p className="text-sm">Dhulikhel</p>
+                  </div>
+                </div>
+                <p>Today</p>
+              </div>
+              <div className="px-4 py-2 bg-gray-200 rounded-sm flex items-center justify-between">
+
+                <div className="flex items-center gap-4">
+                  <div className="p-2 bg-white rounded-full">
+                    <Image src="/assets/chestnut.png" alt="profile pic" height={1000} width={1000} className="h-12 w-12" />
+                  </div>
+                  <div>
+
+                    <p className="text-xl font-medium">Chesnut</p>
+                    <p className="text-sm">Dhulikhel</p>
+                  </div>
+                </div>
+                <p>Today</p>
+              </div>
+              <div className="px-4 py-2 bg-gray-200 rounded-sm flex items-center justify-between">
+
+                <div className="flex items-center gap-4">
+                  <div className="p-2 bg-white rounded-full">
+                    <Image src="/assets/chestnut.png" alt="profile pic" height={1000} width={1000} className="h-12 w-12" />
+                  </div>
+                  <div>
+
+                    <p className="text-xl font-medium">Chesnut</p>
+                    <p className="text-sm">Dhulikhel</p>
+                  </div>
+                </div>
+                <p>Today</p>
+              </div>
+              <div className="px-4 py-2 bg-gray-200 rounded-sm flex items-center justify-between">
+
+                <div className="flex items-center gap-4">
+                  <div className="p-2 bg-white rounded-full">
+                    <Image src="/assets/chestnut.png" alt="profile pic" height={1000} width={1000} className="h-12 w-12" />
+                  </div>
+                  <div>
+
+                    <p className="text-xl font-medium">Chesnut</p>
+                    <p className="text-sm">Dhulikhel</p>
+                  </div>
+                </div>
+                <p>Today</p>
+              </div>
+
+
+
 
             </div>
 
