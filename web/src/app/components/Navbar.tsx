@@ -8,7 +8,6 @@ import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const path = usePathname();
-  console.log(path);
 
   return (
     <aside className="flex h-[100dvh]  w-[var(--sidebar-width)] flex-col items-center justify-between bg-primary">

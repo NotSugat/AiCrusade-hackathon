@@ -5,14 +5,8 @@ import SearchBar from "../SearchBar";
 import L from "leaflet";
 import { database } from "@/app/firebase/config";
 import { onValue, ref } from "firebase/database";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "@/app/firebase/auth/auth";
 
 const Map = ({ searchValue }: { searchValue: string }) => {
-
-  const [user, loading] = useAuthState(auth);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
 
 
 
@@ -25,7 +19,9 @@ const Map = ({ searchValue }: { searchValue: string }) => {
 
   }
 
-  const [birds, setBirds] = useState<any>([]);
+
+
+  const [birds, setBirds] = useState<any>({});
   const [displayBirds, setDisplayBirds] = useState([]);
   const [birdTypes, setBirdTypes] = useState([]);
 
@@ -33,7 +29,7 @@ const Map = ({ searchValue }: { searchValue: string }) => {
   useEffect(() => {
 
     const birdSpecRef = ref(database, "birdspecs");
-    const birdDbRef = ref(database, `userdata/${user?.uid}`);
+    const birdDbRef = ref(database, "bird");
     onValue(birdSpecRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
@@ -44,42 +40,26 @@ const Map = ({ searchValue }: { searchValue: string }) => {
     onValue(birdDbRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
-        const newData = Object.entries(data).map(([key, value]) => value)
-        const newItems = newData.map((item) => Object.entries(item).map(([key, value]) => value))
-
-        setBirds(newItems);
-
+        setBirds(data);
       }
     });
 
-  }, [user]);
+  }, []);
+
+
 
   useEffect(() => {
-    if (birds.length > 0) {
+    const allBirds = Object.entries(birds).map(([key, value]) => value).filter((value) => value.name.toLowerCase().includes(searchValue.toLowerCase()));
+    const newBirds = allBirds.map((bird) => {
+      const birdspec = birdTypes.find(type => type.name === bird.name);
+      return { ...bird, icon: birdspec.image }
+    })
 
-      birds.map((item) => item.map((data) => console.log(data)))
+    setDisplayBirds(newBirds)
 
-    }
-    // console.log(birds)
-
-  }, [birds])
+  }, [searchValue, birds]);
 
 
-  // useEffect(() => {
-  //   const allBirds = birds.map((value) => value).filter((value) => value.birdname.toLowerCase().includes(searchValue.toLowerCase()));
-  //   const newBirds = allBirds.map((bird) => {
-  //     const birdspec = birdTypes.find(type => type.name === bird.name);
-  //     return { ...bird, icon: birdspec.image }
-  //   })
-  //
-  //   setDisplayBirds(newBirds)
-  //
-  //
-  // }, [searchValue, birds]);
-
-  if (!user && !loading) {
-    return <div>Loading...</div>;
-  }
   return (
     <MapContainer
       center={[27.6158, 85.5675]}
@@ -92,9 +72,10 @@ const Map = ({ searchValue }: { searchValue: string }) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      {birds.map((value: any) => (
-        <Marker key={value.birdname} position={[value.latitude, value.longitude]} icon={icon(value.icon)}>
-          <Popup>{value.birdname}</Popup>
+      {displayBirds.map((value: any) => (
+
+        <Marker key={value.name} position={[value.latitude, value.longitude]} icon={icon(value.icon)}>
+          <Popup>{value.name}</Popup>
         </Marker>
       ))}
 
