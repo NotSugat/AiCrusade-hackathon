@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.Aicrusade.R;
-import com.example.mlseriesdemonstrator.R;
 
 public abstract class MLAudioHelperActivity extends AppCompatActivity {
     public final static int REQUEST_RECORD_AUDIO = 2033;
