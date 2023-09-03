@@ -22,7 +22,7 @@ function SignIn() {
 
     // else successful
     console.log(result);
-    return router.push("/home");
+    return router.push("/dashboard");
   };
 
   const auth = getAuth();
@@ -43,7 +43,7 @@ function SignIn() {
   };
 
   return (
-    <div className="flex h-full items-center justify-center  bg-gray-200">
+    <div className="flex h-[100dvh] w-full items-center justify-center  bg-gray-200">
       <div className=" rounded-md bg-black p-4 shadow-md">
         <h1 className="select-none text-center text-2xl font-bold text-gray-200">
           Sign In
@@ -95,7 +95,7 @@ function SignIn() {
           href="/signup"
           className="mt-2 flex cursor-pointer items-center justify-center  text-center text-sm text-gray-200 transition-all duration-150 ease-in-out hover:text-white"
         >
-          Not on DoBlog yet? Sign Up
+          Want to track Bird? SignUp
         </Link>
       </div>
     </div>

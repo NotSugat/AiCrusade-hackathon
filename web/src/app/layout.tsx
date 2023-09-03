@@ -2,6 +2,9 @@ import Script from "next/script";
 import Navbar from "./components/Navbar";
 import "./globals.scss";
 import type { Metadata } from "next";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "./firebase/auth/auth";
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,6 +16,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
+
   return (
     <html lang="en">
       <head>
@@ -29,7 +34,7 @@ export default function RootLayout({
         ></Script>
       </head>
       <body className="flex">
-        <Navbar />
+
         {children}
       </body>
     </html>

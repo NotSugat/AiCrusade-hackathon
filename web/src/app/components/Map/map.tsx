@@ -5,56 +5,81 @@ import SearchBar from "../SearchBar";
 import L from "leaflet";
 import { database } from "@/app/firebase/config";
 import { onValue, ref } from "firebase/database";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/app/firebase/auth/auth";
 
 const Map = ({ searchValue }: { searchValue: string }) => {
-  const houseSparrowIcon = new L.Icon({
-    iconUrl: "/assets/house_sparrow.png", // Replace with the path to your custom icon image
 
-    iconSize: [64, 64], // Adjust the size of the icon
-  });
+  const [user, loading] = useAuthState(auth);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const chestIcon = new L.Icon({
-    iconUrl: "/assets/chestnut.png", // Replace with the path to your custom icon image
 
-    iconSize: [64, 64], // Adjust the size of the icon
-  });
-  const whiteBrestedIcon = new L.Icon({
-    iconUrl: "/assets/white_brested.png", // Replace with the path to your custom icon image
 
-    iconSize: [64, 64], // Adjust the size of the icon
-  });
-  const azzaraIcon = new L.Icon({
-    iconUrl: "/assets/azzara.png", // Replace with the path to your custom icon image
 
-    iconSize: [64, 64], // Adjust the size of the icon
-  });
-  const redCrossbillIcon = new L.Icon({
-    iconUrl: "/assets/red_crossbill.png", // Replace with the path to your custom icon image
+  const icon = (path: string) => {
+    return new L.Icon({
+      iconUrl: path,
 
-    iconSize: [64, 64], // Adjust the size of the icon
-  });
+      iconSize: [64, 64],
+    });
 
-  const [birds, setBirds] = useState<any>({});
+  }
+
+  const [birds, setBirds] = useState<any>([]);
   const [displayBirds, setDisplayBirds] = useState([]);
+  const [birdTypes, setBirdTypes] = useState([]);
 
 
   useEffect(() => {
-    const birdDbRef = ref(database, "bird");
+
+    const birdSpecRef = ref(database, "birdspecs");
+    const birdDbRef = ref(database, `userdata/${user?.uid}`);
+    onValue(birdSpecRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const newData = Object.entries(data).map(([key, value]) => value);
+        setBirdTypes(newData);
+      }
+    });
     onValue(birdDbRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
-        setBirds(data);
+        const newData = Object.entries(data).map(([key, value]) => value)
+        const newItems = newData.map((item) => Object.entries(item).map(([key, value]) => value))
+
+        setBirds(newItems);
+
       }
     });
-  }, []);
+
+  }, [user]);
 
   useEffect(() => {
-    const allBirds = Object.entries(birds).map(([key, value]) => value).filter((value) => value.name.toLowerCase().includes(searchValue.toLowerCase()));
-    setDisplayBirds(allBirds)
+    if (birds.length > 0) {
 
-  }, [searchValue, birds]);
+      birds.map((item) => item.map((data) => console.log(data)))
+
+    }
+    // console.log(birds)
+
+  }, [birds])
 
 
+  // useEffect(() => {
+  //   const allBirds = birds.map((value) => value).filter((value) => value.birdname.toLowerCase().includes(searchValue.toLowerCase()));
+  //   const newBirds = allBirds.map((bird) => {
+  //     const birdspec = birdTypes.find(type => type.name === bird.name);
+  //     return { ...bird, icon: birdspec.image }
+  //   })
+  //
+  //   setDisplayBirds(newBirds)
+  //
+  //
+  // }, [searchValue, birds]);
+
+  if (!user && !loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <MapContainer
       center={[27.6158, 85.5675]}
@@ -67,10 +92,9 @@ const Map = ({ searchValue }: { searchValue: string }) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      {displayBirds.map((value: any) => (
-
-        <Marker key={value.name} position={[value.latitude, value.longitude]} icon={redCrossbillIcon}>
-          <Popup>{value.name}</Popup>
+      {birds.map((value: any) => (
+        <Marker key={value.birdname} position={[value.latitude, value.longitude]} icon={icon(value.icon)}>
+          <Popup>{value.birdname}</Popup>
         </Marker>
       ))}
 

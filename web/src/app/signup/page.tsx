@@ -46,7 +46,7 @@ function SignUp() {
   };
 
   return (
-    <div className="flex h-full items-center justify-center bg-gray-200">
+    <div className="flex  items-center justify-center bg-gray-200 h-[100vh] w-full">
       <div className=" rounded-md bg-black p-4 shadow-md">
         <h1 className="select-none text-center text-2xl font-bold text-gray-200">
           Sign Up
@@ -98,7 +98,7 @@ function SignUp() {
           href="/signin"
           className="mt-2 flex cursor-pointer items-center justify-center  text-center text-sm text-gray-200 transition-all duration-150 ease-in-out hover:text-white"
         >
-          Already blogger? Login
+          Already have an account? Login
         </Link>
       </div>
     </div>
