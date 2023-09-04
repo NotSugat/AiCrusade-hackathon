@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { Input } from "@/components/ui/input";
 import SearchBar from "../components/SearchBar";
@@ -14,9 +14,24 @@ import { Button } from "@/components/ui/button";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/auth/auth";
 import SignIn from "../signin/page";
+import { onValue, ref } from "firebase/database";
+import { database } from "../firebase/config";
 
 const Dashboard = () => {
   const [user, loading] = useAuthState(auth);
+
+  useEffect(() => {
+    const birdSpecRef = ref(database, "birdspecs");
+    onValue(birdSpecRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const newData = Object.entries(data).map(([key, value]) => value);
+        setBirdTypes(newData);
+      }
+    });
+
+  }, [])
+
   if (!user && !loading) {
     return <SignIn />;
   }
@@ -60,8 +75,19 @@ const Dashboard = () => {
               </div>
 
               <div className=" w-full grid place-items-center">
-                <p className="text-2xl font-semibold text-secondary">10</p>
-                <p className="text-xl font- text-secondary ">Bird Count</p>
+                <p className="text-2xl font-semibold text-secondary">4</p>
+                <p className="text-xl font- text-secondary "> Bird per day</p>
+              </div>
+            </div>
+
+            <div className="rounded-sm shadow-sm flex items-center  gap-4 bg-[var(--small-card-bg)] p-4 ">
+              <div className="p-4 bg-gray-200 bg-opacity-30">
+                <ImStatsDots className="text-2xl text-white" />
+              </div>
+
+              <div className=" w-full grid place-items-center">
+                <p className="text-2xl font-semibold text-secondary">2</p>
+                <p className="text-xl font- text-secondary ">Bird species </p>
               </div>
             </div>
 
@@ -72,18 +98,7 @@ const Dashboard = () => {
 
               <div className=" w-full grid place-items-center">
                 <p className="text-2xl font-semibold text-secondary">10</p>
-                <p className="text-xl font- text-secondary ">Bird Count</p>
-              </div>
-            </div>
-
-            <div className="rounded-sm shadow-sm flex items-center  gap-4 bg-[var(--small-card-bg)] p-4 ">
-              <div className="p-4 bg-gray-200 bg-opacity-30">
-                <ImStatsDots className="text-2xl text-white" />
-              </div>
-
-              <div className=" w-full grid place-items-center">
-                <p className="text-2xl font-semibold text-secondary">10</p>
-                <p className="text-xl font- text-secondary ">Bird Count</p>
+                <p className="text-xl font- text-secondary ">Endagered Bird</p>
               </div>
             </div>
 

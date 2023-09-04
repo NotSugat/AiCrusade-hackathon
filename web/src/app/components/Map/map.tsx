@@ -5,6 +5,9 @@ import SearchBar from "../SearchBar";
 import L from "leaflet";
 import { database } from "@/app/firebase/config";
 import { onValue, ref } from "firebase/database";
+import { v4 as uuid } from "uuid"
+import { useDispatch } from "react-redux";
+import { setCount } from "@/redux/features/count-slice";
 
 const Map = ({ searchValue }: { searchValue: string }) => {
 
@@ -21,7 +24,7 @@ const Map = ({ searchValue }: { searchValue: string }) => {
 
 
 
-  const [birds, setBirds] = useState<any>({});
+  const [birds, setBirds] = useState<any>([]);
   const [displayBirds, setDisplayBirds] = useState([]);
   const [birdTypes, setBirdTypes] = useState([]);
 
@@ -29,7 +32,6 @@ const Map = ({ searchValue }: { searchValue: string }) => {
   useEffect(() => {
 
     const birdSpecRef = ref(database, "birdspecs");
-    const birdDbRef = ref(database, "bird");
     onValue(birdSpecRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
@@ -37,10 +39,18 @@ const Map = ({ searchValue }: { searchValue: string }) => {
         setBirdTypes(newData);
       }
     });
-    onValue(birdDbRef, (snapshot) => {
+
+
+    const birdDataRef = ref(database, "userdata");
+    onValue(birdDataRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
-        setBirds(data);
+        const newData = Object.entries(data).map(([key, value]) => Object.entries(value).map(([key, value]) => Object.entries(value).map(([key, value]) => value)))
+
+        let flattenData: any = [];
+        newData.forEach((item) => item.forEach((item) => item.forEach((item) => flattenData.push(item))))
+
+        setBirds(flattenData);
       }
     });
 
@@ -48,14 +58,29 @@ const Map = ({ searchValue }: { searchValue: string }) => {
 
 
 
-  useEffect(() => {
-    const allBirds = Object.entries(birds).map(([key, value]) => value).filter((value) => value.name.toLowerCase().includes(searchValue.toLowerCase()));
-    const newBirds = allBirds.map((bird) => {
-      const birdspec = birdTypes.find(type => type.name === bird.name);
-      return { ...bird, icon: birdspec.image }
-    })
 
-    setDisplayBirds(newBirds)
+  useEffect(() => {
+    // const allBirds = birds.filter((value) => value.birdname.toLowerCase().includes(searchValue.toLowerCase()));
+    // const newBirds = allBirds.map((bird) => {
+    //   const birdspec = birdTypes.find(type => type.name === bird.birdname);
+    //   return { ...bird, icon: birdspec.image }
+    // })
+    //
+    // setDisplayBirds(newBirds)
+
+
+    setDisplayBirds(birds.filter((bird: any) => {
+
+      if (bird.birdname)
+        return bird.birdname.toLowerCase().includes(searchValue.toLowerCase())
+
+    }).map(bird => {
+      const birdspec = birdTypes.find(type => type.name === bird.birdname);
+      console.log(birdspec)
+      return { ...bird, icon: birdspec.image }
+    }))
+
+
 
   }, [searchValue, birds]);
 
@@ -74,8 +99,8 @@ const Map = ({ searchValue }: { searchValue: string }) => {
 
       {displayBirds.map((value: any) => (
 
-        <Marker key={value.name} position={[value.latitude, value.longitude]} icon={icon(value.icon)}>
-          <Popup>{value.name}</Popup>
+        <Marker key={uuid()} position={[value.latitude, value.longitude]} icon={icon(value.icon)}>
+          <Popup>{value.birdname || value.birdname.length !== 0 ? value.birdname : "abc"}</Popup>
         </Marker>
       ))}
 

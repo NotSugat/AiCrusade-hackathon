@@ -22,6 +22,7 @@ const MapPage = () => {
     <Navbar />
     <div className="h-[100vh] overflow-y-hidden  w-[var(--container-width)]">
       <SearchBar setSearchValue={setSearchValue} formStyle="rounded-none" />
+
       <Map searchValue={searchValue} />
     </div>;
   </div>

@@ -1,8 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
+import countSlice from "./features/count-slice";
 
 export const store = configureStore({
-	reducer: {},
+	reducer: {
+		count: countSlice
+	},
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
