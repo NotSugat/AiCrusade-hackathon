@@ -1,13 +1,16 @@
 package com.example.Aicrusade;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -34,6 +37,7 @@ public class BirdDetailActivity extends AppCompatActivity {
     String data;
 
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS =0 ;
+    MediaPlayer player ;
 
 
 
@@ -49,6 +53,7 @@ public class BirdDetailActivity extends AppCompatActivity {
         diet=findViewById(R.id.diet);
         migratingroute=findViewById(R.id.migratingroute);
         overview=findViewById(R.id.overview);
+        player= MediaPlayer.create(BirdDetailActivity.this,R.raw.alarm);
 
 
 
@@ -79,12 +84,21 @@ public class BirdDetailActivity extends AppCompatActivity {
 
                     if(dataSnapshot.child("type").getValue().equals("rare")){
 
-                        data= "Rare species Detected " +
-                                "Bird Name:"+name + "location:" +city + "latitude:" + lat + "longitude:" + longitude;
+                        data = "Endangered species Detected\n" +
+                                "Bird Name: " + name + "\n" +
+                                "Location: " + city + "\n" +
+                                "Latitude: " + lat + "\n" +
+                                "Longitude: " + longitude;
 
                         Log.i("DAta",data);
 
                         sendSMSMessage();
+
+
+
+
+                        player.start();
+                        sendAlert(name,city,player);
                     }
 
                     if(dataSnapshot.child("type").getValue().equals("endangered")){
@@ -97,6 +111,9 @@ public class BirdDetailActivity extends AppCompatActivity {
                                 "Latitude: " + lat + "\n" +
                                 "Longitude: " + longitude;
                         sendSMSMessage();
+
+                        player.start();
+                        sendAlert(name,city,player);
                     }
 
                 }
@@ -110,6 +127,25 @@ public class BirdDetailActivity extends AppCompatActivity {
 
     }
 
+    private void sendAlert(String name, String city, MediaPlayer player) {
+        new AlertDialog.Builder(BirdDetailActivity.this)
+                .setTitle(name + "Rare Bird Found")
+                .setMessage("Bird found in "+ city)
+
+                // Specifying a listener allows you to take an action before dismissing the dialog.
+                // The dialog is automatically dismissed when a dialog button is clicked.
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        player.stop();
+                        dialog.dismiss();
+                    }
+                })
+
+                // A null listener allows the button to dismiss the dialog and take no further action.
+                .setNegativeButton("No", null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
 
 
     protected void sendSMSMessage() {
@@ -153,39 +189,4 @@ public class BirdDetailActivity extends AppCompatActivity {
 
 
 
-
-
-
-//    protected void sendSMSMessage() {
-//        if (ContextCompat.checkSelfPermission(this,
-//                Manifest.permission.SEND_SMS)
-//                != PackageManager.PERMISSION_GRANTED) {
-//
-//            Log.i("Msg Sent","Msg sent");
-//            SmsManager smsManager = SmsManager.getDefault();
-//            smsManager.sendTextMessage("+9779845476276", null, data, null, null);
-//            Toast.makeText(getApplicationContext(), "Message Sent", Toast.LENGTH_LONG).show();
-//        } else {
-//            ActivityCompat.requestPermissions(this,
-//                    new String[]{Manifest.permission.SEND_SMS},
-//                    MY_PERMISSIONS_REQUEST_SEND_SMS);
-//        }
-//    }
-//
-//
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
-//     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//
-//                if (grantResults.length > 0
-//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//
-//                    sendSMSMessage();
-//
-//                } else {
-//                    Toast.makeText(getApplicationContext(),
-//                            "SMS faild, please try again.", Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//    }
 }

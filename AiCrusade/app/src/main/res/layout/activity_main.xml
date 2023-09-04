@@ -6,4 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/enter"
+        android:layout_width="167dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="192dp"
+        android:layout_marginEnd="152dp"
+        android:text="Enter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

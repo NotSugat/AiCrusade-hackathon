@@ -6,14 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
     android:orientation="vertical"
-    android:background="#E69E34"
+    android:background="#FA440B"
     >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:text="Bird's Eye"
+        android:textSize="44dp"
+        android:textColor="@color/black"
+        android:textStyle="italic|bold"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"/>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:src="@drawable/danfe"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="20dp"/>
     <EditText
         android:id="@+id/emaillogin"
