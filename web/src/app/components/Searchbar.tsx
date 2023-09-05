@@ -1,25 +1,19 @@
-import React from "react"
 import { cn } from "@/lib/utils";
 import { BiSearchAlt } from "react-icons/bi";
 
-type FormProps = React.FormHTMLAttributes<HTMLFormElement>;
 
 const SearchBar = ({
   formStyle,
   iconStyle,
   inputStyle,
   placeHolderText,
-  setSearchValue,
 }: {
   formStyle?: string;
   iconStyle?: string;
   inputStyle?: string;
   placeHolderText?: string;
-  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-
   return (
-
     <form
       className={cn(
         " flex items-center gap-2 rounded-full border-2  border-[var(--text-primary)] bg-[#E6E9E3]  pl-4  ",
@@ -28,7 +22,6 @@ const SearchBar = ({
     >
       <BiSearchAlt size={24} className={cn("fill-[#333]", iconStyle)} />
       <input
-        onChange={e => setSearchValue(e.target.value)}
         type="text"
         placeholder={placeHolderText ? placeHolderText : "Search..."}
         className={cn(
@@ -41,3 +34,4 @@ const SearchBar = ({
 };
 
 export default SearchBar;
+
