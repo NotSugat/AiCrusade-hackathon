@@ -215,7 +215,7 @@ public class BirdSoundDetectorActivity extends MLAudioHelperActivity {
 
                         HashMap<String,Object> map = new HashMap<>();
                         map.put("birdname",chirping.getText().toString());
-                        map.put("latitue",lat);
+                        map.put("latitude",lat);
                         map.put("longitude",longitude);
                         map.put("city", city);
                         map.put("country",country);

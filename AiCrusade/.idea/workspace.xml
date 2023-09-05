@@ -15,7 +15,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\test\.android\avd\Pixel_6_Pro_API_30.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[447c90ac]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -80,17 +80,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "android-custom-viewC:/Users/test/Desktop/birds/birdsyt/MLSeriesDemonstrator/app/src/main/java/com/example/mlseriesdemonstrator/helpers/GraphicOverlay.java_SELECTED": "GraphicOverlay",
-    "cidr.known.project.marker": "true",
-    "last_directory_selection": "C:/Users/test/Desktop/AiCrusade-hackathon/AiCrusade/app/src/main/res/drawable",
-    "last_opened_file_path": "C:/Users/test/Desktop/AiCrusade-hackathon/AiCrusade/app/src/main/res/raw"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;android-custom-viewC:/Users/test/Desktop/birds/birdsyt/MLSeriesDemonstrator/app/src/main/java/com/example/mlseriesdemonstrator/helpers/GraphicOverlay.java_SELECTED&quot;: &quot;GraphicOverlay&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;last_directory_selection&quot;: &quot;C:/Users/test/Desktop/AiCrusade-hackathon/AiCrusade/app/src/main/res/drawable&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/test/Desktop/AiCrusade-hackathon/AiCrusade/app/src/main/res/raw&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\test\Desktop\AiCrusade-hackathon\AiCrusade\app\src\main\res\raw" />
