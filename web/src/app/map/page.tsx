@@ -24,7 +24,7 @@ const MapPage = () => {
       <SearchBar setSearchValue={setSearchValue} formStyle="rounded-none" />
 
       <Map searchValue={searchValue} />
-    </div>;
+    </div>
   </div>
 };
 

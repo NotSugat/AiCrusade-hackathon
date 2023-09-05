@@ -8,8 +8,9 @@ import { onValue, ref } from "firebase/database";
 import { v4 as uuid } from "uuid"
 import { useDispatch } from "react-redux";
 import { setCount } from "@/redux/features/count-slice";
+import { cn } from "@/lib/utils";
 
-const Map = ({ searchValue }: { searchValue: string }) => {
+const Map = ({ searchValue, className }: { searchValue: string, className: string }) => {
 
 
 
@@ -90,21 +91,23 @@ const Map = ({ searchValue }: { searchValue: string }) => {
       center={[27.6158, 85.5675]}
       zoom={15}
       scrollWheelZoom={true}
-      className="h-[calc(100vh-2.5rem)] w-full"
+      className={cn("h-[calc(100vh-2.5rem)] w-full", className)}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      {displayBirds.map((value: any) => (
+      {
+        displayBirds.map((value: any) => (
 
-        <Marker key={uuid()} position={[value.latitude, value.longitude]} icon={icon(value.icon)}>
-          <Popup>{value.birdname || value.birdname.length !== 0 ? value.birdname : "abc"}</Popup>
-        </Marker>
-      ))}
+          <Marker key={uuid()} position={[value.latitude, value.longitude]} icon={icon(value.icon)}>
+            <Popup>{value.birdname || value.birdname.length !== 0 ? value.birdname : "abc"}</Popup>
+          </Marker>
+        ))
+      }
 
-    </MapContainer>
+    </MapContainer >
   );
 };
 

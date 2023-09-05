@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { Input } from "@/components/ui/input";
 import SearchBar from "../components/SearchBar";
@@ -16,21 +16,46 @@ import { auth } from "../firebase/auth/auth";
 import SignIn from "../signin/page";
 import { onValue, ref } from "firebase/database";
 import { database } from "../firebase/config";
+import { v4 as uuid } from "uuid"
+import Map from "../components/Map/map";
+import { useRouter } from "next/navigation";
 
 const Dashboard = () => {
   const [user, loading] = useAuthState(auth);
+  const [speciesCount, setSpeciesCount] = useState(0)
+  const [birds, setBirds] = useState([])
+  const [birdTypes, setBirdTypes] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
+    const birdRef = ref(database, `userdata/${user?.uid}`);
     const birdSpecRef = ref(database, "birdspecs");
     onValue(birdSpecRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
         const newData = Object.entries(data).map(([key, value]) => value);
         setBirdTypes(newData);
+        console.log(newData)
       }
     });
+    onValue(birdRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const newData = Object.entries(data).map(([key, value]) => value);
+        const newerData = newData.map((value) => Object.entries(value).map(([key, value]) => value))
 
-  }, [])
+        let flattenData: any = [];
+        newerData.forEach((item) => item.forEach((item) => flattenData.push(item)))
+
+
+
+        setBirds(flattenData)
+        console.log(flattenData.length);
+      }
+
+    });
+
+  }, [user])
 
   if (!user && !loading) {
     return <SignIn />;
@@ -49,15 +74,15 @@ const Dashboard = () => {
               <AvatarImage src="" alt="Avatar" />
               <AvatarFallback>S</AvatarFallback>
             </Avatar>
-            <p>Sugat</p>
+            <p>Pranish</p>
           </div>
         </nav>
 
 
-        <section className="mx-2 bg-green-200 px-4 h-[var(--card-height)] flex items-center relative my-12" >
+        <section className="mx-2 bg-green-300 px-4 h-[var(--card-height)] flex items-center relative my-12" >
           <div>
 
-            <p className="text-3xl font-semibold">Hello, Sugat</p>
+            <p className="text-3xl font-semibold">Hello, Pranish</p>
             <p className="text-xl font-medium">Do track brid and save brid</p>
           </div>
 
@@ -125,93 +150,23 @@ const Dashboard = () => {
             <ScrollArea className="h-[var(--bottom-card-height)] ">
               <div className="space-y-2">
 
-                <div className="px-4 py-2 bg-gray-200 rounded-sm flex items-center justify-between">
+                {
+                  birds.map((bird) => (
+                    <div key={uuid()} className="px-4 py-2 bg-gray-200 rounded-sm flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <div className="p-2 bg-white rounded-full">
+                          <Image src="/assets/chestnut.png" alt="profile pic" height={1000} width={1000} className="h-12 w-12" />
+                        </div>
+                        <div>
 
-                  <div className="flex items-center gap-4">
-                    <div className="p-2 bg-white rounded-full">
-                      <Image src="/assets/chestnut.png" alt="profile pic" height={1000} width={1000} className="h-12 w-12" />
+                          <p className="text-xl font-medium">{bird.birdname}</p>
+                          <p className="text-sm">{bird.city}</p>
+                        </div>
+                      </div>
+                      <p>{bird.Date}</p>
                     </div>
-                    <div>
-
-                      <p className="text-xl font-medium">Chesnut</p>
-                      <p className="text-sm">Dhulikhel</p>
-                    </div>
-                  </div>
-                  <p>Today</p>
-                </div>
-                <div className="px-4 py-2 bg-gray-200 rounded-sm flex items-center justify-between">
-
-                  <div className="flex items-center gap-4">
-                    <div className="p-2 bg-white rounded-full">
-                      <Image src="/assets/chestnut.png" alt="profile pic" height={1000} width={1000} className="h-12 w-12" />
-                    </div>
-                    <div>
-
-                      <p className="text-xl font-medium">Chesnut</p>
-                      <p className="text-sm">Dhulikhel</p>
-                    </div>
-                  </div>
-                  <p>Today</p>
-                </div>
-
-
-                <div className="px-4 py-2 bg-gray-200 rounded-sm flex items-center justify-between">
-
-                  <div className="flex items-center gap-4">
-                    <div className="p-2 bg-white rounded-full">
-                      <Image src="/assets/chestnut.png" alt="profile pic" height={1000} width={1000} className="h-12 w-12" />
-                    </div>
-                    <div>
-
-                      <p className="text-xl font-medium">Chesnut</p>
-                      <p className="text-sm">Dhulikhel</p>
-                    </div>
-                  </div>
-                  <p>Today</p>
-                </div>
-                <div className="px-4 py-2 bg-gray-200 rounded-sm flex items-center justify-between">
-
-                  <div className="flex items-center gap-4">
-                    <div className="p-2 bg-white rounded-full">
-                      <Image src="/assets/chestnut.png" alt="profile pic" height={1000} width={1000} className="h-12 w-12" />
-                    </div>
-                    <div>
-
-                      <p className="text-xl font-medium">Chesnut</p>
-                      <p className="text-sm">Dhulikhel</p>
-                    </div>
-                  </div>
-                  <p>Today</p>
-                </div>
-                <div className="px-4 py-2 bg-gray-200 rounded-sm flex items-center justify-between">
-
-                  <div className="flex items-center gap-4">
-                    <div className="p-2 bg-white rounded-full">
-                      <Image src="/assets/chestnut.png" alt="profile pic" height={1000} width={1000} className="h-12 w-12" />
-                    </div>
-                    <div>
-
-                      <p className="text-xl font-medium">Chesnut</p>
-                      <p className="text-sm">Dhulikhel</p>
-                    </div>
-                  </div>
-                  <p>Today</p>
-                </div>
-                <div className="px-4 py-2 bg-gray-200 rounded-sm flex items-center justify-between">
-
-                  <div className="flex items-center gap-4">
-                    <div className="p-2 bg-white rounded-full">
-                      <Image src="/assets/chestnut.png" alt="profile pic" height={1000} width={1000} className="h-12 w-12" />
-                    </div>
-                    <div>
-
-                      <p className="text-xl font-medium">Chesnut</p>
-                      <p className="text-sm">Dhulikhel</p>
-                    </div>
-                  </div>
-                  <p>Today</p>
-                </div>
-
+                  ))
+                }
 
 
 
@@ -222,12 +177,17 @@ const Dashboard = () => {
 
 
           </div>
-          <div className="bg-green-200">
-            <p className="text-xl font-semibold text-center p-2">
+          <div className="bg-green-200 overflow-hidden">
+            <p className="text-xl font-semibold text-center p-2 ">
 
               Find in Map
             </p>
-            <Button>Find in Map</Button>
+            <div className="h-[100px]">
+
+              <Map searchValue="" className="h-[350px]" />
+
+              <Button onClick={router}>Find in Map</Button>
+            </div>
           </div>
         </section>
       </div>
